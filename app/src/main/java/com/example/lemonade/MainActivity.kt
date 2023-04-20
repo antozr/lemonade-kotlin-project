@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         //lemonImg.setImageResource(R.drawable.lemon_tree)
         //lemonImg.setOnClickListener{clickLemonImage()}
         clickLemonImage()
+        //setViewElements()
         // === DO NOT ALTER THE CODE IN THE FOLLOWING IF STATEMENT ===
         if (savedInstanceState != null) {
             lemonadeState = savedInstanceState.getString(LEMONADE_STATE, "select")
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     private fun clickLemonImage() {
         val lemonImg :ImageView = findViewById(R.id.image_lemon_state)
         Log.v("LEMON","This is the lemon")
-
+        setViewElements()
 
 
         if (lemonadeState == "select") {
@@ -110,16 +111,19 @@ class MainActivity : AppCompatActivity() {
             squeezeCount = 0
 
         }else if (lemonadeState == "squeeze"){
-            lemonImg.setImageResource(R.drawable.lemon_squeeze)
+           lemonImg.setImageResource(R.drawable.lemon_squeeze)
             println(squeezeCount)
             if (squeezeCount != lemonSize ){
-                Log.v("LEMONCOUNT", "no")
+
                 squeezeCount ++
                 showSnackbar()
-            }else{
-                Log.v("LEMONCOUNT", "YES")
+            }else if (lemonSize === squeezeCount){
                 lemonadeState = DRINK
-                squeezeCount = -1
+            }
+            else{
+
+                lemonadeState = DRINK
+                //squeezeCount = -1
             }
             //showSnackbar()
 
@@ -159,9 +163,32 @@ class MainActivity : AppCompatActivity() {
      * Set up the view elements according to the state.
      */
     private fun setViewElements() {
+
         val textAction: TextView = findViewById(R.id.text_action)
         // TODO: set up a conditional that tracks the lemonadeState
+       // val lemonImg :ImageView = findViewById(R.id.image_lemon_state)
 
+        if (lemonadeState === "select") {
+           // lemonImg.setImageResource(R.drawable.lemon_tree)
+            textAction.setText(R.string.lemon_select)
+
+
+        }else if (lemonadeState === "squeeze"){
+            //lemonImg.setImageResource(R.drawable.lemon_squeeze)
+            textAction.setText(R.string.lemon_squeeze)
+        }else if (lemonadeState === "drink"){
+            textAction.setText(R.string.lemon_drink)
+            //lemonImg.setImageResource(R.drawable.lemon_drink)
+            lemonadeState = RESTART
+        }else if (lemonadeState === "restart"){
+            //lemonImg.setImageResource(R.drawable.lemon_restart)
+            textAction.setText(R.string.lemon_empty_glass)
+
+        }else{
+           // lemonImg.setImageResource(R.drawable.lemon_tree)
+            textAction.setText(R.string.lemon_select)
+
+        }
         // TODO: for each state, the textAction TextView should be set to the corresponding string from
         //  the string resources file. The strings are named to match the state
 
