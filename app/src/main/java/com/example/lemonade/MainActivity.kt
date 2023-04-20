@@ -21,6 +21,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -105,11 +106,23 @@ class MainActivity : AppCompatActivity() {
         if (lemonadeState == "select") {
             lemonImg.setImageResource(R.drawable.lemon_tree)
             lemonadeState = SQUEEZE
+            lemonSize = lemonTree.pick()
+            squeezeCount = 0
 
         }else if (lemonadeState == "squeeze"){
             lemonImg.setImageResource(R.drawable.lemon_squeeze)
-            showSnackbar()
-            lemonadeState = DRINK
+            println(squeezeCount)
+            if (squeezeCount != lemonSize ){
+                Log.v("LEMONCOUNT", "no")
+                squeezeCount ++
+                showSnackbar()
+            }else{
+                Log.v("LEMONCOUNT", "YES")
+                lemonadeState = DRINK
+                squeezeCount = -1
+            }
+            //showSnackbar()
+
         }else if (lemonadeState == "drink"){
             lemonImg.setImageResource(R.drawable.lemon_drink)
             lemonadeState = RESTART
